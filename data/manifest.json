@@ -1,0 +1,27 @@
+{
+  "name": "ESP32 Weather Station",
+  "id":"/index.html",
+  "short_name": "ESP32 Wx",
+  "lang": "en-US",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "192x192-splash.png",
+      "sizes": "192x192",
+      "type": "image\/PNG",
+      "purpose": "maskable"
+    },
+    {
+      "src": "512x512-splash.png",
+      "sizes": "512x512",
+      "type": "image\/PNG"
+    },
+    {
+      "src": "splash.svg",
+      "sizes": "any"
+    }
+  ]
+}

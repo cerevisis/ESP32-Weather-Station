@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>ESP32 Weather Station Display</title>
+  <meta name="description" content="ESP32 Weather Station Display">
+  <meta name="keywords" content="ESP32 Weather Station Display">
+  <meta name="author" content="EdTech">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json" crossorigin="anonymous" />
+ 
+  <link rel="stylesheet" media="all" type="text/css" href="bootstrap.min.css" />
+  <link rel="stylesheet" media="all" type="text/css" href="style.css" />
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="update.js"></script>
+  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript" src="sw.js"></script>
+
+
+ 
+
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" href="/android-icon-192x192.png" sizes="192x192" />
+  <meta name="theme-color" content="white" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Weather Station <span id="version">Pending</span></a>
+    <div id="desktop-stats" class="station-stats d-none d-sm-block" style="    margin-right: 8px;">
+
+    </div>
+
+    <button class="navbar-toggler position-absolute d-md-none" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </header>
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-home">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg> Dashboard </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/system/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-layers">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg> System Setup </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="main-container">
+
+          <div id="mobile-stats" class="station-stats d-block d-sm-none" style="color:black;">
+
+          </div>
+
+
+          <h4 style="margin-top: 24px; text-align: left;">System Setup</h4>
+          <div class="form-section">
+            <h6>WiFi</h6>
+            <div class="mb-3"></div>
+
+            <form action="/saveWiFiRestart">
+
+              <div style="max-width:240px;" class="mb-3">SSID: <input class="form-control" type="text" id="wifiSSID"
+                  name="wifiSSID" placeholder="%wifiSSID%" value="%wifiSSID%" maxlength="30" size="30" /></div>
+              <div style="max-width:240px;" class="mb-3">Password: <input class="form-control" type="password"
+                  id="wifiPW" name="wifiPW" value="%wifiPW%" placeholder="wifiPW" maxlength="30" size="30" />
+
+                <input type="checkbox" onclick="showText()">Show Password
+              </div>
+
+
+              <input type="submit" class="btn btn-outline-danger" value="SAVE WIFI & RESTART" />
+            </form>
+          </div>
+
+
+
+          <div class="form-section">
+            <h6>API Setup</h6>
+            <form class="form-floating" action="/saveAPIKeys">
+
+              <div class="mb-3">ThingSpeak Channel<input class="form-control" type="text" name="blynkAPI" id="blynkAPI"
+                  value="%blynkAPI%" placeholder="%blynkAPI%" /></div>
+              <div class="mb-3">ThingSpeak Write API<input class="form-control" type="text" name="blynkAPI"
+                  id="blynkAPI" value="%blynkAPI%" placeholder="%blynkAPI%" /></div>
+              <div class="mb-3">ThingSpeak Read API<input class="form-control" type="text" name="blynkAPI" id="blynkAPI"
+                  value="%blynkAPI%" placeholder="%blynkAPI%" /></div>
+              <br />
+              <div class="mb-3">Windy Station ID<input class="form-control" type="text" name="gmapsAPI" id="gmapsAPI"
+                  value="%gmapsAPI%" /></div>
+              <div class="mb-3">Windy API<input class="form-control" type="text" name="gmapsAPI" id="gmapsAPI"
+                  value="%gmapsAPI%" /></div>
+              <br />
+              <div class="mb-3">Weather Undeground Station ID<input class="form-control" type="text" name="openWXAPI"
+                  id="openWXAPI" value="%openWXAPI%" /></div>
+              <div class="mb-3">Weather Undeground API<input class="form-control" type="text" name="openWXAPI"
+                  id="openWXAPI" value="%openWXAPI%" /></div>
+
+              <input type="submit" value="SAVE" />
+            </form>
+          </div>
+
+
+
+          <div class="form-section">
+            <h6>Restart system</h6>
+            <div class="mb-3"></div>
+            <form action="/restart">
+              <input type="submit" class="btn btn-danger" value="RESTART SYSTEM" />
+
+            </form>
+          </div>
+        </div>
+
+
+
+      </main>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
+    <script>
+      window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>');
+    </script>
+
+
+    <script type="text/javascript">
+      function showText() {
+        var x = document.getElementById("wifiPW");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+
+    </script>
+
+</body>
+
+</html>

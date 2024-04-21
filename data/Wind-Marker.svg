@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="37px" viewBox="0 0 20 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>Wind Marker</title>
+        <defs></defs>
+    <g id="Wind-Marker" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Triangle-2" fill="#0d6efd" transform="translate(10.088388, 23.483552) rotate(-315.000000) translate(-10.088388, -23.483552) " points="-6.45449028 6.81567304 26.631267 26.0092947 12.4891314 40.1514303"></polygon>
+    </g>
+</svg>

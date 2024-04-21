@@ -1,0 +1,37 @@
+{
+    "timezone": 7200,
+    "wifi": [
+        {
+            "ssid": "YOUR_SSID",
+            "password": "PASSWORD"
+        }
+    ],
+    "location": [
+        {
+            "city": "Cape Town",
+            "sublocality_level_2": "Observatory",
+            "country": "ZA",
+            "longitude": "18.4688",
+            "latitude": "-33.9382"
+        }
+    ],
+    "windyApiSetup": [
+        {
+            "stationID": "",
+            "windyAPIKey": ""
+        }
+    ],
+    "wundGApiSetup": [
+        {
+            "wundStationID": "",
+            "wundStationPw": ""
+        }
+    ],
+    "thingSpkSetup": [
+        {
+            "myChannelNumber": "",
+            "thingSpkAPIr": "",
+            "thingSpkAPIwR": ""
+        }
+    ]
+}
