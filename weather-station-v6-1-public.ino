@@ -1442,6 +1442,7 @@ void enableWiFi()
   }
 }
 
+
 void monitorWiFiRSSI()
 {
   if (WiFi.RSSI() < minWifiRSSI)
@@ -1452,7 +1453,13 @@ void monitorWiFiRSSI()
     delay(100);
     enableWiFi();
   }
+  else if (WiFi.RSSI() >= minWifiRSSI)
+  {
+    String logMessage = "WiFi - RSSI >= " + String(minWifiRSSI) + " at " + String(WiFi.RSSI()) + "dB";
+    serialTerminal(0, logMessage);
+  }
 }
+
 
 void wakeModemSleep()
 {
