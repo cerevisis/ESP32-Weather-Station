@@ -2,7 +2,7 @@
 Comprehensive open source ESP32 based weather station software and hardware with built in web server that can publish weather data to both Windy.com and Wunderground.com 
 
 
-##Full documentation and hardware build guide in progress
+## ull documentation and hardware build guide in progress
 - Custom PCB design
 - STL 3D printing files for
   - Custom helical radiation screen
@@ -33,7 +33,7 @@ Comprehensive open source ESP32 based weather station software and hardware with
   - API and other system stats
   - Supports PWA but requires HTTPS and SSL certificate capabale web server (not implemented yet)
  
-##Hardware requirements
+## Hardware requirements
 - ESP32 dev board
   - Tested on Lolin D32, DFRobot Firebeetle
 - Temperature, relative humidity and air pressue
