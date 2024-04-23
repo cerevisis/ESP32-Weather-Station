@@ -2,7 +2,7 @@
 Comprehensive open source ESP32 based weather station software and hardware with built in web server that can publish weather data to both Windy.com and Wunderground.com 
 
 
-Full documentation and hardware build guide in progress
+##Full documentation and hardware build guide in progress
 - Custom PCB design
 - STL 3D printing files for
   - Custom helical radiation screen
@@ -19,6 +19,7 @@ Full documentation and hardware build guide in progress
   - Requires free accounts and API keys for each
   - Supports all required API variables
   - Additional can be easily added
+- WS2182 RGB LED status light with various error and status colour patterns
 - Full featured web dashboard built on Bootstrap
   - Local CSS and JS files
   - App-like Dashboard style UI
@@ -31,6 +32,19 @@ Full documentation and hardware build guide in progress
   - Dark and light mode
   - API and other system stats
   - Supports PWA but requires HTTPS and SSL certificate capabale web server (not implemented yet)
+ 
+##Hardware requirements
+- ESP32 dev board
+  - Tested on Lolin D32, DFRobot Firebeetle
+- Temperature, relative humidity and air pressue
+  - BME280 sensor breakout board
+- Analogue wind vanes and anemometers
+  - Recommended from Sparkfunhttps://www.sparkfun.com/products/15901
+- Voltage and current measurement
+  - INA219 current/voltage sensor
+- LED status light
+  -  WS2182 RGB LED
+-  MicroSD breakout board
 
 
 ![mobile-UI-top-half](https://github.com/cerevisis/ESP32-Weather-Station/assets/66214741/be5743fe-d321-40f5-a2d3-4645243ab7ec)
