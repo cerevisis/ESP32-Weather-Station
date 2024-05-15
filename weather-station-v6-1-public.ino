@@ -941,12 +941,11 @@ void IRAM_ATTR wspeedIRQ()
   // compare the windStateChange to its previous state
   if (windStateChange != lastwindStateChange)
   {
-
     if (windStateChange == HIGH)
     {
       if (millis() - lastTick > 10) // Ignore switch-bounce glitches less than 10ms (142KmH max reading) after the reed switch closes
       {
-        timeSinceLastTick = millis() - lastTick;
+        timeSinceLastTick   = millis() - lastTick;
         lastTick = millis();
       }
     }
@@ -955,26 +954,23 @@ void IRAM_ATTR wspeedIRQ()
 }
 
 boolean validReading;
-
 // Returns the instantaneous wind speed
+float circumfKMH = 1583.3626974; //for 3 cup anemometer with 14cm diameter, 43.98229715cm circumference X 36 to convert from cm/ms to km/h.
 float get_wind_speed()
 {
   validReading = true;
   if (timeSinceLastTick != 0)
   {
-    windSpeed = (1000 / timeSinceLastTick);
-    windSpeed = windSpeed * 2.397644;
-
-    if (windSpeed < 0.25)
-    {
-      windSpeed = 0;
-    }
-    if (windSpeed > 180)
-    {
-      validReading = false;
-    }
+    windSpeed = circumfKMH / timeSinceLastTick; 
   }
-
+  if (windSpeed < 0.3)
+  {
+    windSpeed = 0;
+  }
+  if (windSpeed > 180)
+  {
+    validReading = false;
+  }
   if (validReading)
   {
     return (windSpeed);
@@ -986,7 +982,6 @@ unsigned long prevWindTimer;
 
 void calcWeather()
 {
-
   if (millis() - prevWindTimer >= windTimer)
   {
     prevWindTimer = millis();
