@@ -21,14 +21,12 @@
   <link rel="stylesheet" media="all" type="text/css" href="bootstrap.min.css" />
   <link rel="stylesheet" media="all" type="text/css" href="style.css" />
   <script type="text/javascript" src="bootstrap.min.js"></script>
-  <script type="text/javascript" src="update.js"></script>
-  <script type="text/javascript" src="index.js"></script>
-  <script type="text/javascript" src="sw.js"></script>
+
 
   <!-- <script src="https://kit.fontawesome.com/99eb79323f.js" crossorigin="anonymous"></script> -->
 
- <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
- 
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
+
 
 </head>
 
@@ -93,7 +91,7 @@
             <li class="nav-item">
               <div class="nav-link">
                 <div class="form-check form-switch">
-                  <input class="form-check-input" id="Dtoggle5" onchange="darkmode(this)" type="checkbox" checked />
+                  <input class="form-check-input" id="Dtoggle5" onchange="darkmode(this)"  type="checkbox" checked />
                   <label class="form-check-label" for="Dtoggle5">Dark Mode</label>
                 </div>
               </div>
@@ -126,7 +124,7 @@
                       <td><strong>ThingSpeak</strong></td>
                       <td><span id="thingStatus">pending</span></td>
                     </tr>
-                    
+
                     <tr>
                       <td><strong>ESP32 Heap Memory</strong></td>
                       <td><span id="freeHeapMem">pending</span> free</td>
@@ -136,10 +134,7 @@
                       <td><strong>LFS Memory</strong></td>
                       <td><span id="memoryLFS">pending</span> free</td>
                     </tr>
-                    <tr>
-                      <td><strong>microSD</strong></td>
-                      <td><span id="memorySD">pending</span> free</td>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -164,7 +159,12 @@
                     <div class="align-self-center ">
                       <div class="weather-card-labels">
 
-                        <em class="fas fa-thermometer-three-quarters" style="color: #059e8a;"></em>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icons"
+                          viewBox="0 0 16 16">
+                          <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415" />
+                          <path
+                            d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1" />
+                        </svg>
                         <span>Temperature</span>
                       </div>
                       <p>
@@ -178,9 +178,13 @@
                   <div class="weather-card weather-card-small d-flex justify-content-center">
                     <div class="align-self-center ">
                       <div class="weather-card-labels">
-
-
-                        <em class="fas fa-gauge"></em>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icons"
+                          viewBox="0 0 16 16">
+                          <path
+                            d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z" />
+                          <path fill-rule="evenodd"
+                            d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0" />
+                        </svg>
                         <span>Pressure</span>
                       </div>
                       <p>
@@ -202,7 +206,13 @@
                     <div class="align-self-center ">
                       <div class="weather-card-labels">
 
-                        <em class="fas fa-tint" style="color: #00add6;"></em>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icons"
+                          viewBox="0 0 16 16">
+                          <path fill-rule="evenodd"
+                            d="M7.21.8C7.69.295 8 0 8 0q.164.544.371 1.038c.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8m.413 1.021A31 31 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10c0 0 2.5 1.5 5 .5s5-.5 5-.5c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z" />
+                          <path fill-rule="evenodd"
+                            d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87z" />
+                        </svg>
                         <span>Humidity</span>
                       </div>
                       <p>
@@ -218,7 +228,12 @@
                     <div class="align-self-center ">
                       <div class="weather-card-labels">
 
-                        <em class="fa-solid fa-cloud-rain" style="color: #00add6;"></em>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icons"
+                          viewBox="0 0 16 16">
+                          <path
+                            d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973" />
+                        </svg>
                         <span>Rain</span>
                       </div>
                       <div class="row  ">
@@ -252,7 +267,171 @@
 
 
                     <div class="wind-dial__container">
-                      <img alt="img" class="wind-dial" src="Wind-Dial.svg">
+                      <!-- <img alt="img" class="wind-dial" src="Wind-Dial.svg"> -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="wind-dial" viewBox="0 0 199.65 199">
+                        <defs>
+                          <style>
+                            .cls-1 {
+                              fill: #888;
+                            }
+
+                            .cardinal {
+                              fill: #777;
+                            }
+                          </style>
+                        </defs>
+                        <g id="Layer_2" data-name="Layer 2">
+                          <g id="Layer_3" data-name="Layer 3">
+                            <path class="cardinal" d="M96.17,10V0h2l4.1,6.69V0h1.88V10h-2l-4-6.53V10Z" />
+                            <path class="cardinal" d="M192,104.59v-10h7.43v1.7h-5.4v2.22h5v1.69h-5v2.73h5.6v1.68Z" />
+                            <path class="cardinal"
+                              d="M2.05,104.46l-2-10H1.78l1.3,6.88,1.57-6.88H6.71l1.51,7,1.32-7h1.75l-2.09,10H7.36L5.65,97l-1.71,7.49Z" />
+                            <path
+                              d="M152.12,48a.69.69,0,0,1-.5-.2.71.71,0,0,1,0-1l9.9-9.9a.7.7,0,0,1,1,1l-9.9,9.9A.66.66,0,0,1,152.12,48Z" />
+                            <path d="M187.65,100h-14a.71.71,0,1,1,0-1.41h14a.71.71,0,0,1,0,1.41Z" />
+                            <path
+                              d="M162,161.85a.7.7,0,0,1-.5-.21l-9.9-9.9a.7.7,0,0,1,1-1l9.9,9.9a.69.69,0,0,1,0,1A.67.67,0,0,1,162,161.85Z" />
+                            <path
+                              d="M100.15,187.47a.7.7,0,0,1-.71-.7v-14a.71.71,0,0,1,1.41,0v14A.7.7,0,0,1,100.15,187.47Z" />
+                            <path
+                              d="M38.27,161.85a.67.67,0,0,1-.49-.21.69.69,0,0,1,0-1l9.9-9.9a.7.7,0,0,1,1,1l-9.9,9.9A.7.7,0,0,1,38.27,161.85Z" />
+                            <path d="M26.65,100h-14a.71.71,0,0,1,0-1.41h14a.71.71,0,0,1,0,1.41Z" />
+                            <path
+                              d="M48.17,48a.66.66,0,0,1-.49-.2l-9.9-9.9a.7.7,0,0,1,1-1l9.9,9.9a.71.71,0,0,1,0,1A.69.69,0,0,1,48.17,48Z" />
+                            <path
+                              d="M100.15,26.48a.71.71,0,0,1-.71-.7v-14a.71.71,0,1,1,1.41,0v14A.71.71,0,0,1,100.15,26.48Z" />
+                            <path class="cardinal"
+                              d="M96.07,195.56l2-.19a2.44,2.44,0,0,0,.72,1.46,2.18,2.18,0,0,0,1.47.46,2.28,2.28,0,0,0,1.47-.41,1.25,1.25,0,0,0,.5-1,.92.92,0,0,0-.21-.61,1.69,1.69,0,0,0-.73-.43c-.24-.08-.78-.23-1.62-.44a5.5,5.5,0,0,1-2.28-1,2.59,2.59,0,0,1-.93-2,2.62,2.62,0,0,1,.44-1.44,2.69,2.69,0,0,1,1.25-1,5,5,0,0,1,2-.35,4.22,4.22,0,0,1,2.84.83,2.88,2.88,0,0,1,1,2.21l-2,.08a1.73,1.73,0,0,0-.56-1.11,2.06,2.06,0,0,0-1.28-.34,2.24,2.24,0,0,0-1.38.37.73.73,0,0,0-.32.62.77.77,0,0,0,.3.61,5.48,5.48,0,0,0,1.86.67,9.61,9.61,0,0,1,2.18.72,2.88,2.88,0,0,1,1.11,1,2.93,2.93,0,0,1,.4,1.59,3,3,0,0,1-.48,1.62,2.85,2.85,0,0,1-1.35,1.11,5.58,5.58,0,0,1-2.18.37,4.32,4.32,0,0,1-2.92-.88A3.8,3.8,0,0,1,96.07,195.56Z" />
+                            <polygon class="cls-1"
+                              points="107.18 22.04 106.69 22 107.56 12.04 108.06 12.08 107.18 22.04" />
+                            <polygon class="cls-1"
+                              points="113.92 22.95 113.43 22.86 115.16 13.02 115.66 13.1 113.92 22.95" />
+                            <rect class="cls-1" x="116.6" y="19.3" width="10" height="0.5"
+                              transform="matrix(0.26, -0.97, 0.97, 0.26, 71.32, 131.98)" />
+                            <rect class="cls-1" x="123.5" y="21.47" width="10" height="0.5"
+                              transform="translate(64.02 134.98) rotate(-69.94)" />
+                            <rect class="cls-1" x="130.18" y="24.24" width="10" height="0.5"
+                              transform="translate(55.93 136.71) rotate(-65.04)" />
+                            <rect class="cls-1" x="136.6" y="27.58" width="10" height="0.5"
+                              transform="translate(46.76 136.6) rotate(-60.03)" />
+                            <rect class="cls-1" x="142.7" y="31.47" width="10" height="0.5"
+                              transform="translate(37.01 134.53) rotate(-55.01)" />
+                            <polygon class="cls-1"
+                              points="150.41 40.11 150.03 39.79 156.46 32.13 156.84 32.45 150.41 40.11" />
+                            <polygon class="cls-1"
+                              points="159.98 49.74 159.66 49.36 167.32 42.93 167.64 43.32 159.98 49.74" />
+                            <rect class="cls-1" x="163.05" y="51.83" width="10" height="0.5"
+                              transform="translate(0.52 105.79) rotate(-34.99)" />
+                            <rect class="cls-1" x="166.94" y="57.92" width="10" height="0.5"
+                              transform="translate(-6.07 93.66) rotate(-29.97)" />
+                            <rect class="cls-1" x="170.28" y="64.34" width="10" height="0.5"
+                              transform="translate(-10.88 80.01) rotate(-24.96)" />
+                            <polygon class="cls-1"
+                              points="173.43 73.22 173.26 72.75 182.66 69.33 182.83 69.8 173.43 73.22" />
+                            <rect class="cls-1" x="175.22" y="77.92" width="10" height="0.5"
+                              transform="translate(-14.07 49.17) rotate(-14.96)" />
+                            <polygon class="cls-1"
+                              points="176.91 86.34 176.82 85.85 186.67 84.11 186.75 84.61 176.91 86.34" />
+                            <polygon class="cls-1"
+                              points="177.77 93.08 177.73 92.59 187.69 91.72 187.73 92.21 177.77 93.08" />
+                            <polygon class="cls-1"
+                              points="187.69 107.53 177.73 106.66 177.77 106.17 187.73 107.04 187.69 107.53" />
+                            <polygon class="cls-1"
+                              points="186.67 115.14 176.82 113.4 176.91 112.91 186.75 114.64 186.67 115.14" />
+                            <rect class="cls-1" x="179.97" y="116.08" width="0.5" height="10"
+                              transform="translate(16.62 263.83) rotate(-75)" />
+                            <polygon class="cls-1"
+                              points="182.66 129.92 173.26 126.5 173.43 126.03 182.83 129.45 182.66 129.92" />
+                            <rect class="cls-1" x="175.03" y="129.66" width="0.5" height="10"
+                              transform="translate(-20.84 236.6) rotate(-65)" />
+                            <rect class="cls-1" x="171.69" y="136.08" width="0.5" height="10"
+                              transform="translate(-36.21 219.44) rotate(-60)" />
+                            <rect class="cls-1" x="167.8" y="142.17" width="0.5" height="10"
+                              transform="translate(-48.89 200.43) rotate(-55)" />
+                            <polygon class="cls-1"
+                              points="167.32 156.32 159.66 149.89 159.98 149.51 167.64 155.94 167.32 156.32" />
+                            <polygon class="cls-1"
+                              points="156.46 167.12 150.03 159.46 150.41 159.14 156.84 166.8 156.46 167.12" />
+                            <rect class="cls-1" x="147.44" y="162.53" width="0.5" height="10"
+                              transform="translate(-69.39 115.02) rotate(-35)" />
+                            <rect class="cls-1" x="141.35" y="166.42" width="0.5" height="10"
+                              transform="translate(-66.74 93.75) rotate(-30)" />
+                            <rect class="cls-1" x="134.93" y="169.76" width="0.5" height="10"
+                              transform="translate(-61.19 73.5) rotate(-25)" />
+                            <rect class="cls-1" x="128.25" y="172.53" width="0.5" height="10"
+                              transform="translate(-52.98 54.67) rotate(-20)" />
+                            <rect class="cls-1" x="121.35" y="174.7" width="0.5" height="10"
+                              transform="translate(-42.37 37.6) rotate(-15)" />
+                            <polygon class="cls-1"
+                              points="115.16 186.23 113.43 176.38 113.92 176.3 115.66 186.15 115.16 186.23" />
+                            <polygon class="cls-1"
+                              points="107.56 187.21 106.69 177.25 107.18 177.21 108.06 187.17 107.56 187.21" />
+                            <polygon class="cls-1"
+                              points="92.73 187.21 92.24 187.17 93.11 177.21 93.61 177.25 92.73 187.21" />
+                            <polygon class="cls-1"
+                              points="85.13 186.23 84.64 186.15 86.37 176.3 86.86 176.38 85.13 186.23" />
+                            <rect class="cls-1" x="73.69" y="179.45" width="10" height="0.5"
+                              transform="matrix(0.26, -0.97, 0.97, 0.26, -115.23, 209.33)" />
+                            <rect class="cls-1" x="66.79" y="177.28" width="10" height="0.5"
+                              transform="translate(-119.59 184.07) rotate(-69.94)" />
+                            <rect class="cls-1" x="60.11" y="174.51" width="10" height="0.5"
+                              transform="translate(-120.8 160.03) rotate(-65.04)" />
+                            <rect class="cls-1" x="53.7" y="171.17" width="10" height="0.5"
+                              transform="translate(-119.13 136.64) rotate(-60.03)" />
+                            <rect class="cls-1" x="47.6" y="167.28" width="10" height="0.5"
+                              transform="translate(-114.81 114.55) rotate(-55.01)" />
+                            <polygon class="cls-1"
+                              points="43.84 167.12 43.45 166.8 49.88 159.14 50.26 159.46 43.84 167.12" />
+                            <polygon class="cls-1"
+                              points="32.97 156.32 32.65 155.94 40.31 149.51 40.63 149.89 32.97 156.32" />
+                            <rect class="cls-1" x="27.24" y="146.92" width="10" height="0.5"
+                              transform="translate(-78.57 45.09) rotate(-34.99)" />
+                            <rect class="cls-1" x="23.35" y="140.83" width="10" height="0.5"
+                              transform="translate(-66.68 33.02) rotate(-29.97)" />
+                            <rect class="cls-1" x="20.01" y="134.41" width="10" height="0.5"
+                              transform="translate(-54.49 23.14) rotate(-24.96)" />
+                            <polygon class="cls-1"
+                              points="17.63 129.92 17.46 129.45 26.86 126.03 27.03 126.5 17.63 129.92" />
+                            <rect class="cls-1" x="15.07" y="120.83" width="10" height="0.5"
+                              transform="translate(-30.58 9.29) rotate(-14.96)" />
+                            <polygon class="cls-1"
+                              points="13.62 115.14 13.54 114.64 23.39 112.91 23.47 113.4 13.62 115.14" />
+                            <polygon class="cls-1"
+                              points="12.6 107.53 12.56 107.04 22.52 106.17 22.56 106.66 12.6 107.53" />
+                            <polygon class="cls-1"
+                              points="22.52 93.08 12.56 92.21 12.6 91.72 22.56 92.59 22.52 93.08" />
+                            <polygon class="cls-1"
+                              points="23.39 86.34 13.54 84.61 13.62 84.11 23.47 85.85 23.39 86.34" />
+                            <rect class="cls-1" x="19.82" y="73.17" width="0.5" height="10"
+                              transform="translate(-60.63 77.33) rotate(-75)" />
+                            <polygon class="cls-1"
+                              points="26.86 73.22 17.46 69.8 17.63 69.33 27.03 72.75 26.86 73.22" />
+                            <rect class="cls-1" x="24.76" y="59.59" width="0.5" height="10"
+                              transform="translate(-44.1 59.96) rotate(-65)" />
+                            <rect class="cls-1" x="28.1" y="53.18" width="0.5" height="10"
+                              transform="translate(-36.2 53.64) rotate(-60)" />
+                            <rect class="cls-1" x="31.99" y="47.08" width="0.5" height="10"
+                              transform="translate(-28.91 48.61) rotate(-55)" />
+                            <polygon class="cls-1"
+                              points="40.31 49.74 32.65 43.32 32.97 42.93 40.63 49.36 40.31 49.74" />
+                            <polygon class="cls-1"
+                              points="49.88 40.11 43.45 32.45 43.84 32.13 50.26 39.79 49.88 40.11" />
+                            <rect class="cls-1" x="52.35" y="26.72" width="0.5" height="10"
+                              transform="translate(-8.68 35.9) rotate(-35)" />
+                            <rect class="cls-1" x="58.45" y="22.83" width="0.5" height="10"
+                              transform="translate(-6.05 33.08) rotate(-30)" />
+                            <rect class="cls-1" x="64.86" y="19.49" width="0.5" height="10"
+                              transform="translate(-4.25 29.81) rotate(-25)" />
+                            <rect class="cls-1" x="71.54" y="16.72" width="0.5" height="10"
+                              transform="translate(-3.1 25.87) rotate(-20)" />
+                            <rect class="cls-1" x="78.44" y="14.55" width="0.5" height="10"
+                              transform="translate(-2.38 21.04) rotate(-15)" />
+                            <polygon class="cls-1"
+                              points="86.37 22.95 84.64 13.1 85.13 13.02 86.86 22.86 86.37 22.95" />
+                            <polygon class="cls-1" points="93.11 22.04 92.24 12.08 92.73 12.04 93.61 22 93.11 22.04" />
+                          </g>
+                        </g>
+                      </svg>
                       <div class="text-wrapper">
                         <p style="margin-bottom:8px;">
                         <div class="weather-card-labels">
@@ -275,7 +454,18 @@
                       </div>
                       <div id="winddirarrow">
                         <div id="arrow-wrapper" style="transform: translateX(-50%) rotate(450deg);">
-                          <img alt="img" src="Wind-Marker.svg">
+                          <svg width="11px" height="37px" viewBox="0 0 20 37" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>Wind Marker</title>
+                            <desc>Created with Sketch.</desc>
+                            <defs></defs>
+                            <g id="Wind-Marker" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                              <polygon id="Triangle-2" fill="#0d6efd"
+                                transform="translate(10, 24) rotate(-315.000000) translate(-10, -24) "
+                                points="-6 6 26 26 12 40"></polygon>
+                            </g>
+                          </svg>
+
                         </div>
                       </div>
                     </div>
@@ -286,7 +476,11 @@
 
                     </div>
                     <p class="weather-card-labels-small">
-                      <i class="fas fa-wind" style="color: #00add6;"></i>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icons"
+                        viewBox="0 0 16 16">
+                        <path
+                          d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
+                      </svg>
                       <span>Wind Gust</span>
                       <span id="windgustKmH">pending</span>
                       <sup class="units-small">km/h</sup>
@@ -298,7 +492,7 @@
           </div>
           <div class="">
             <div class="row">
-              
+
               <div class="col">
                 <div class="weather-card weather-table weather-card-large">
                   <h6>Daily Weather Records</h6>
@@ -365,7 +559,7 @@
 
 
             </div>
-            
+
             <div class="weather-card weather-card-large">
               <div class="row">
                 <div class="col-md-4 col-xs-12">
@@ -375,102 +569,100 @@
                     <div class="col">
                       <h6>Sensors</h6>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Stoggle1" onchange="updateToggle(this)" type="checkbox" />
-                        <label class="form-check-label" for="Stoggle1">BME680</label>
+                        <input class="form-check-input" id="Stoggle1" type="checkbox" />
+                        <label class="form-check-label" for="Stoggle1">BME280</label>
                       </div>
 
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Stoggle2" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Stoggle2" type="checkbox" />
                         <label class="form-check-label" for="Stoggle2">Wind speed</label>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Stoggle3" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Stoggle3" type="checkbox" />
                         <label class="form-check-label" for="Stoggle3">Wind direction</label>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Stoggle4" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Stoggle4" type="checkbox" />
                         <label class="form-check-label" for="Stoggle4">Rain</label>
                       </div>
 
                       <br />
 
                       <h6>System overrides</h6>
+
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Dtoggle4" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Dtoggle4" type="checkbox" />
                         <label class="form-check-label" for="Dtoggle4">Sleep Mode</label>
                       </div>
 
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Dtoggle2" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Dtoggle2" type="checkbox" />
                         <label class="form-check-label" for="Dtoggle2">Error Logging</label>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Dtoggle3" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Dtoggle3" type="checkbox" />
                         <label class="form-check-label" for="Dtoggle3">Battery Check</label>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Dtoggle6" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Dtoggle6" type="checkbox" />
                         <label class="form-check-label" for="Dtoggle6">WiFi Scanning</label>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Dtoggle7" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Dtoggle7" type="checkbox" />
                         <label class="form-check-label" for="Dtoggle7">Status LED</label>
                       </div>
                       <br />
+
+
                       <h6>Data Refresh Interval <span id="dataRefresh">(pending)</span></h6>
                       <input class="form-control" type="number" name="Fdata0" id="Fdata0" placeholder="pending"
-                        onchange="sendForm(this)" />
+                        element.target.id />
                       <br />
 
                       <h6>RSSI limit <span id="rssilimit">(pending)</span></h6>
-                      <input class="form-control" type="number" name="Fdata2" id="Fdata2" placeholder="pending"
-                        onchange="sendForm(this)" />
+                      <input class="form-control" type="number" name="Fdata2" id="Fdata2" placeholder="pending" />
                       <br />
                       <h6>WiFi Scan interval <span id="wifiinterval">(pending)</span></h6>
-                      <input class="form-control" type="number" name="Fdata3" id="Fdata3" placeholder="pending"
-                        onchange="sendForm(this)" />
+                      <input class="form-control" type="number" name="Fdata3" id="Fdata3" placeholder="pending" />
                       <br />
                       <h6>Windspeed rain cutoff <span id="windRainCutoff">(pending)</span></h6>
-                      <input class="form-control" type="number" name="Fdata4" id="Fdata4" placeholder="pending"
-                        onchange="sendForm(this)" />
+                      <input class="form-control" type="number" name="Fdata4" id="Fdata4" placeholder="pending" />
+                      <br />
                       <h6>Deep sleep <span id="deepSleepTime">(pending)</span></h6>
-                      <input class="form-control" type="number" name="Fdata5" id="Fdata5" placeholder="pending"
-                        onchange="sendForm(this)" />
+                      <input class="form-control" type="number" name="Fdata5" id="Fdata5" placeholder="pending" />
                     </div>
                     <div class="col">
 
 
                       <h6>API Control</h6>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Atoggle0" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Atoggle0" type="checkbox" />
                         <label class="form-check-label" for="Atoggle0">ThingSpeak</label>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Atoggle1" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Atoggle1" type="checkbox" />
                         <label class="form-check-label" for="Atoggle1">Windy</label>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Atoggle2" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Atoggle2" type="checkbox" />
                         <label class="form-check-label" for="Atoggle2">Wunderground</label>
                       </div>
 
                     </div>
                   </div>
-
-
                 </div>
                 <div class="col-md-8">
                   <h6>Terminal</h6>
                   <div class="row">
                     <div class="col">
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Ttoggle0" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Ttoggle0" type="checkbox" />
                         <label class="form-check-label" for="Ttoggle0">Terminal</label>
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-check form-switch">
-                        <input class="form-check-input" id="Dtoggle1" onchange="updateToggle(this)" type="checkbox" />
+                        <input class="form-check-input" id="Dtoggle1" type="checkbox" />
                         <label class="form-check-label" for="Dtoggle1">Debug mode</label>
                       </div>
                     </div>
@@ -481,7 +673,9 @@
                     </form>
                   </div>
                   <div class="error-table-container">
-                    <p style="text-align: left;"><Strong>Log</Strong> <a href="/clearerrorlog">Clear log</a></p>
+                    <p style="text-align: left;"><Strong>System Log</Strong></p>
+                    <p style="text-align: left;"><a href="/systemLog.csv">Data</a> <a href="/clearerrorlog">Clear
+                        log</a></p>
                     <div class="error-table">
                       <table class="table table-striped table-sm" id="errorTable">
                         <tr>
@@ -495,10 +689,7 @@
             </div>
           </div>
       </main>
-
-       
       <script>
-
         function darkmode(element) {
           console.log("dark mode " + element.id);
 
@@ -514,16 +705,10 @@
           for (var i = 0; i < sidebar.length; i++) {
             sidebar[i].classList.toggle('dark-mode');
           }
-
-         
-           
-
         }
       </script>
-
-
+      <script type="text/javascript" src="update.js"></script>
+      <script type="text/javascript" src="index.js"></script>
+      <script type="text/javascript" src="sw.js"></script>
 </body>
-
-
-
 </html>
