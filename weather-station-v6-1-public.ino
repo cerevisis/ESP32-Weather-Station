@@ -935,6 +935,7 @@ void rainIRQ()
   }
 }
 
+int windClicks;
 void IRAM_ATTR wspeedIRQ()
 {
   windStateChange = gpio_get_level(GPIO_NUM_25);
@@ -945,8 +946,10 @@ void IRAM_ATTR wspeedIRQ()
     {
       if (millis() - lastTick > 10) // Ignore switch-bounce glitches less than 10ms (142KmH max reading) after the reed switch closes
       {
+        windClicks++;
         timeSinceLastTick   = millis() - lastTick;
         lastTick = millis();
+        serialTerminal(1, "timeSinceLastTick: " + String(timeSinceLastTick));
       }
     }
   }
@@ -954,16 +957,24 @@ void IRAM_ATTR wspeedIRQ()
 }
 
 boolean validReading;
-// Returns the instantaneous wind speed
-float circumfKMH = 1583.3626974; //for 3 cup anemometer with 14cm diameter, 43.98229715cm circumference X 36 to convert from cm/ms to km/h.
+float deltaTime;
+unsigned long lastWindCheck = 0;
 float get_wind_speed()
 {
   validReading = true;
   if (timeSinceLastTick != 0)
   {
-    windSpeed = circumfKMH / timeSinceLastTick; 
+    deltaTime = millis() - lastWindCheck;
+    serialTerminal(1, "deltaTime: " + String(deltaTime));
+    deltaTime /= 1000.0;
+    serialTerminal(0, "windClicks: " + String(windClicks));
+    windSpeed =  windClicks / deltaTime;
+    serialTerminal(0, "windSpeed: " + String(windSpeed));
+    windClicks = 0;
+    lastWindCheck = millis();
   }
-  if (windSpeed < 0.3)
+
+  if (windSpeed < 0.75)
   {
     windSpeed = 0;
   }
@@ -971,6 +982,8 @@ float get_wind_speed()
   {
     validReading = false;
   }
+  windSpeed *= 2.397644;
+
   if (validReading)
   {
     return (windSpeed);
@@ -982,15 +995,7 @@ unsigned long prevWindTimer;
 
 void calcWeather()
 {
-  if (millis() - prevWindTimer >= windTimer)
-  {
-    prevWindTimer = millis();
-    currentSpeed = get_wind_speed();
-
-    windspeedKmH = currentSpeed;
-    windSpeedMph = windSpdAvg60Sec / 1.60934;
-  }
-
+ 
   if (millis() - lastSecond >= 1000)
   {
     lastSecond = millis();
@@ -2209,6 +2214,16 @@ void loop()
 {
 
   wspeedIRQ();
+   
+  if (millis() - prevWindTimer >= windTimer)
+  {
+    prevWindTimer = millis();
+    currentSpeed = get_wind_speed();
+
+    windspeedKmH = currentSpeed;
+    windSpeedMph = windSpdAvg60Sec / 1.60934;
+  }
+   
   rainIRQ();
   calcWeather();
   sendSensorData();
