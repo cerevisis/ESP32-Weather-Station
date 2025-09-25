@@ -39,7 +39,7 @@ Comprehensive open source ESP32 based weather station software and hardware with
 - Temperature, relative humidity and air pressue
   - BME280 sensor breakout board
 - Analogue wind vanes and anemometers
-  - Recommended from Sparkfunhttps://www.sparkfun.com/products/15901
+  - Recommended from Sparkfun https://www.sparkfun.com/products/15901
 - Voltage and current measurement
   - INA219 current/voltage sensor
 - LED status light
