@@ -64,7 +64,7 @@
                   <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                   <polyline points="2 17 12 22 22 17"></polyline>
                   <polyline points="2 12 12 17 22 12"></polyline>
-                </svg> System Setup </a>
+                </svg> Setup </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/restart">
@@ -534,7 +534,7 @@
                       <h6>Windspeed rain cutoff <span id="windRainCutoff">(pending)</span></h6>
                       <input class="form-control" type="number" name="Fdata4" id="Fdata4" placeholder="pending" />
                       <br />
-                      <h6>Deep sleep <span id="deepSleepTime">(pending)</span></h6>
+                      <h6>Power Save Deep Sleep Time <span id="deepSleepTime">(pending)</span></h6>
                       <input class="form-control" type="number" name="Fdata5" id="Fdata5" placeholder="pending" />
                     </div>
                     <div class="col">
@@ -553,10 +553,10 @@
                         <input class="form-check-input" id="Atoggle2" type="checkbox" />
                         <label class="form-check-label" for="Atoggle2">Wunderground</label>
                       </div>
-                      <div class="form-check form-switch">
+                      <!-- <div class="form-check form-switch">
                         <input class="form-check-input" id="Atoggle3" type="checkbox" />
                         <label class="form-check-label" for="Atoggle3">PWSWeather</label>
-                      </div>
+                      </div> -->
 
                     </div>
                   </div>
@@ -584,23 +584,7 @@
                       <textarea class="terminal-textarea" name="terminalBoxArea" id="terminalBoxAreaID"></textarea>
                     </form>
                   </div>
-                  <!-- <div class="error-table-container">
-                    <p style="text-align: left;"><Strong>System Log</Strong> <a href="/systemLog.csv">Data</a> <a
-                        href="/clearerrorlog">Clear
-                        log</a></p>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" id="Dtoggle8" type="checkbox" />
-                      <label class="form-check-label" for="Dtoggle8">Log Refresh</label>
-                    </div>
-
-                    <div class="error-table">
-                      <table class="table table-striped table-sm" id="errorTable">
-                        <tr>
-                          <td>Loading data</td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div> -->
+        
                 </div>
               </div>
             </div>
@@ -611,9 +595,9 @@
           <div class="weather-card weather-card-large">
             <div class="row">
               <div id="system">
-            <h4 >System Configuration</h4>
-          </div>
-              <div class="col">
+                <h4>System Configuration</h4>
+              </div>
+              <div class="col-md-6">
                 <h6>Wi-Fi Credentials</h6>
                 <div class="mb-3">
                   <label for="C_WIFI_SSID" class="form-label">WiFi SSID</label>
@@ -621,14 +605,51 @@
                 </div>
                 <div class="mb-3">
                   <label for="C_WIFI_PW" class="form-label">WiFi Password</label>
-                  <input type="text" class="form-control" id="C_WIFI_PW" placeholder="Enter WiFi Password">
+                  <input type="password" class="form-control" id="C_WIFI_PW" placeholder="Enter WiFi Password">
                 </div>
                 <button type="button" class="btn btn-primary" onclick="saveWifiConfig()">Save and Restart</button>
                 <div id="saveStatus" class="mt-2"></div>
               </div>
-              
-            
-              
+              <div class="col-md-6">
+                <h6>Timezone Settings</h6>
+                <div class="mb-3">
+                  <label for="C_TIMEZONE" class="form-label">Timezone (UTC Offset)</label>
+                  <select id="C_TIMEZONE" class="form-select">
+                    <option value="-12">(UTC-12:00) International Date Line West</option>
+                    <option value="-11">(UTC-11:00) Coordinated Universal Time-11</option>
+                    <option value="-10">(UTC-10:00) Hawaii</option>
+                    <option value="-9">(UTC-09:00) Alaska</option>
+                    <option value="-8">(UTC-08:00) Pacific Time (US & Canada)</option>
+                    <option value="-7">(UTC-07:00) Mountain Time (US & Canada)</option>
+                    <option value="-6">(UTC-06:00) Central Time (US & Canada), Mexico City</option>
+                    <option value="-5">(UTC-05:00) Eastern Time (US & Canada), Bogota, Lima</option>
+                    <option value="-4">(UTC-04:00) Atlantic Time (Canada), Caracas, La Paz</option>
+                    <option value="-3.5">(UTC-03:30) Newfoundland</option>
+                    <option value="-3">(UTC-03:00) Brazil, Buenos Aires, Georgetown</option>
+                    <option value="-2">(UTC-02:00) Mid-Atlantic</option>
+                    <option value="-1">(UTC-01:00) Azores, Cape Verde Islands</option>
+                    <option value="0">(UTC+00:00) Western Europe Time, London, Lisbon, Casablanca</option>
+                    <option value="1">(UTC+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+                    <option value="2">(UTC+02:00) Kaliningrad, South Africa</option>
+                    <option value="3">(UTC+03:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
+                    <option value="4">(UTC+04:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                    <option value="5">(UTC+05:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                    <option value="6">(UTC+06:00) Almaty, Dhaka, Colombo</option>
+                    <option value="7">(UTC+07:00) Bangkok, Hanoi, Jakarta</option>
+                    <option value="8">(UTC+08:00) Beijing, Perth, Singapore, Hong Kong</option>
+                    <option value="9">(UTC+09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                    <option value="10">(UTC+10:00) Eastern Australia, Guam, Vladivostok</option>
+                    <option value="11">(UTC+11:00) Magadan, Solomon Islands, New Caledonia</option>
+                    <option value="12">(UTC+12:00) Auckland, Wellington, Fiji, Kamchatka</option>
+                  </select>
+                </div>
+                <div class="form-check form-switch mb-3">
+                  <input class="form-check-input" type="checkbox" id="C_DAYLIGHT_SAVINGS">
+                  <label class="form-check-label" for="C_DAYLIGHT_SAVINGS">Enable Daylight Saving Time (adds 1 hour)</label>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveTimezoneConfig()">Save Timezone</button>
+                <div id="timezoneSaveStatus" class="mt-2"></div>
+              </div>
             </div>
             <hr>
             <div class="row">
@@ -669,7 +690,7 @@
                   <input type="text" class="form-control" id="C_WUND_ST_PW" placeholder="Enter Wunderground Station Password">
                 </div>
               </div>
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <h6>PWSWeather API</h6>
                 <div class="mb-3">
                   <label for="C_PWS_ST_ID" class="form-label">Station ID</label>
@@ -679,7 +700,7 @@
                   <label for="C_PWS_ST_PW" class="form-label">Station Password</label>
                   <input type="text" class="form-control" id="C_PWS_ST_PW" placeholder="Enter PWSWeather Station Password">
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <button type="button" class="btn btn-primary" onclick="saveApiConfig()">Save API Config</button>
@@ -732,6 +753,20 @@
           }
         }
 
+        function saveTimezoneConfig() {
+          const timezoneData = {
+            "C_TIMEZONE": document.getElementById('C_TIMEZONE').value,
+            "C_DAYLIGHT_SAVINGS": document.getElementById('C_DAYLIGHT_SAVINGS').checked,
+          };
+          const message = "Z" + JSON.stringify(timezoneData); // 'Z' for Timezone
+          if (websocket && websocket.readyState === WebSocket.OPEN) {
+            websocket.send(message);
+            document.getElementById('timezoneSaveStatus').innerText = 'Timezone configuration sent.';
+          } else {
+            document.getElementById('timezoneSaveStatus').innerText = 'Error: WebSocket not connected.';
+          }
+        }
+
         function saveApiConfig() {
           const apiData = {
             "C_TS_CH_ID": document.getElementById('C_TS_CH_ID').value,
@@ -740,8 +775,8 @@
             "C_WINDY_API_KEY": document.getElementById('C_WINDY_API_KEY').value,
             "C_WUND_ST_ID": document.getElementById('C_WUND_ST_ID').value,
             "C_WUND_ST_PW": document.getElementById('C_WUND_ST_PW').value,
-            "C_PWS_ST_ID": document.getElementById('C_PWS_ST_ID').value,
-            "C_PWS_ST_PW": document.getElementById('C_PWS_ST_PW').value,
+            // "C_PWS_ST_ID": document.getElementById('C_PWS_ST_ID').value,
+            // "C_PWS_ST_PW": document.getElementById('C_PWS_ST_PW').value,
           };
           // Filter out empty values
           const filteredData = Object.fromEntries(Object.entries(apiData).filter(([_, v]) => v !== ''));

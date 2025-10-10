@@ -252,6 +252,16 @@ function onMessage(event) {
                     case "PWSWxStationID": updateElement('C_PWS_ST_ID', value); break;
                     case "PWSWxStationPw": updateElement('C_PWS_ST_PW', value); break;
 
+                    case "yourUTC":
+                        const timezoneSelect = document.getElementById('C_TIMEZONE');
+                        if (timezoneSelect) timezoneSelect.value = value;
+                        break;
+                    case "daylightOffset":
+                        const daylightCheckbox = document.getElementById('C_DAYLIGHT_SAVINGS');
+                        // Value will be 3600 for on, 0 for off.
+                        if (daylightCheckbox) daylightCheckbox.checked = (value > 0);
+                        break;
+
                     case "rssi": miniRssi = parseFloat(value) * -1; updateElement("rssi", value); break;
                     case "outsideTemp": currentTemperature = parseFloat(value); updateElement("outsideTemp", currentTemperature, 1); break;
                     case "sensorHum": currentHumidity = parseFloat(value); updateElement("sensorHum", currentHumidity, 1); break;

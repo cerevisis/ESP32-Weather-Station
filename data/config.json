@@ -1,37 +1,38 @@
 {
-    "timezone": 7200,
-    "wifi": [
-        {
-            "ssid": "YOUR_SSID",
-            "password": "YOUR_WIFI_PW"
-        }
-    ],
-    "location": [
-        {
-            "city": "Cape Town",
-            "sublocality_level_2": "Observatory",
-            "country": "ZA",
-            "longitude": "18.4688",
-            "latitude": "-33.9382"
-        }
-    ],
-    "windyApiSetup": [
-        {
-            "stationID": "",
-            "windyAPIKey": ""
-        }
-    ],
-    "wundGApiSetup": [
-        {
-            "wundStationID": "",
-            "wundStationPw": ""
-        }
-    ],
-    "thingSpkSetup": [
-        {
-            "myChannelNumber": "",
-            "thingSpkAPIr": "",
-            "thingSpkAPIwR": ""
-        }
-    ]
+  "wifi": [
+    {
+      "ssid": "YOUR_WIFI",
+      "password": "YOUR_WIFI_PW"
+    }
+  ],
+  "thingSpkSetup": [
+    {
+      "myChannelNumber": 123,
+      "thingSpkAPIwR": ""
+    }
+  ],
+  "windyApiSetup": [
+    {
+      "stationID": "",
+      "windyAPIKey": ""
+    }
+  ],
+  "wundGApiSetup": [
+    {
+      "wundStationID": "",
+      "wundStationPw": ""
+    }
+  ],
+  "location": [
+    {
+      "yourUTC": 2,
+      "daylightOffset": 0
+    }
+  ],
+  "pwsApiSetup": [
+    {
+      "PWSWxStationID": "",
+      "PWSWxStationPw": ""
+    }
+  ]
 }
