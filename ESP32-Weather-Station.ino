@@ -1,11 +1,4 @@
 // VERSION NUMBER - UPDATE ON SAVE!//
-/**
-   TODO
-   > add first boot config for API
-   > add changelog to setup page
-   > avg metrics trends on web ui
-*/
-
 // Define this macro to enable sensor data simulation for testing without hardware
 // Comment it out or undefine it to use actual hardware sensors.
 // #define SIMULATE_SENSORS
@@ -3075,3 +3068,4 @@ void loop()
   }
   ArduinoOTA.handle();
 }
+
