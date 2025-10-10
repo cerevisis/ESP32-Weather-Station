@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [V8.1.3] - 2024-05-26
+
+### Added
+- **Timezone Configuration:** Added a new section in the web UI for setting the station's timezone.
+- Includes a dropdown list of all UTC offsets.
+- Includes a toggle for enabling/disabling Daylight Saving Time (adds 1 hour).
+
+### Changed
+- **Configuration Persistence:** The selected timezone offset and daylight savings setting are now saved to `config.json` under the `location` section.
+- **Firmware:** The ESP32 now loads the timezone settings on boot and applies them for correct local time calculation. The WebSocket message handler was updated to process timezone changes.
+- **Web Interface:** The UI now sends timezone changes via WebSocket and correctly displays the currently saved settings on page load.
+
 ## [V8.1.2] - 2024-05-26
 
 ### Added

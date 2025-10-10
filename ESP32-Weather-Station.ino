@@ -10,7 +10,7 @@
 // Comment it out or undefine it to use actual hardware sensors.
 // #define SIMULATE_SENSORS
 
-String versionNR = "V8.1.2"; // Incremented version for this change
+String versionNR = "V8.1.3"; // Incremented version for this change
 String versionName = versionNR + " Weather Station";
 
 #include "FS.h"
@@ -232,8 +232,8 @@ unsigned long epochTime;
 byte timeAttempts = 0;
 int epochYear = 1970;
 long yourUTC = 2; // Replace with your actual UTC time zone value in hours
-long UTCOffset_sec = yourUTC * 60 * 60;
-const int daylightOffset_sec = 0;
+long UTCOffset_sec;
+int daylightOffset_sec = 0;
 tmElements_t unixTimeStamp;
 int weekDayIndex, monthIndex;
 bool initialTimeSync = false;
@@ -425,8 +425,9 @@ void setup()
   batteryCalc();
   batteryMonitor();
   ledSetup();
-
-  LedBlinker(true, 100, LEDBlue, 250, LEDOrange, 2);
+  
+  // Use the standard "Booting" pattern
+  LedBlinker(true, 500, LEDBlue, 500, LEDBlack, 2); // Slow Blue Pulse
 
   // leds[0] = CRGB::Red;
   // FastLED.show();
@@ -447,6 +448,9 @@ void setup()
   // Only attempt to sync time after a successful WiFi connection.
   if (WiFi.status() == WL_CONNECTED)
   {
+    // Calculate initial UTCOffset_sec from loaded config value
+    UTCOffset_sec = yourUTC * 3600;
+    configTime(UTCOffset_sec, daylightOffset_sec, ntpServer1, ntpServer2);
     initialTimeSync = true;
     syncTime(0); // Call once to handle initial sync, including retries.
     initialTimeSync = false;
@@ -462,7 +466,8 @@ void setup()
   ASyncServer.begin();
   initWebSocket();
   delay(500);
-  LedBlinker(true, 250, LEDGreen, 100, LEDBlack, 3);
+  // Use the standard "Success" pattern
+  LedBlinker(true, 100, LEDGreen, 100, LEDBlack, 2); // Quick Green Double-Flash
   initialBoot = false;
 
   // Initialize historical data arrays
@@ -824,6 +829,10 @@ void saveConfig() {
     wundGApi_0["wundStationID"] = wundStationID;
     wundGApi_0["wundStationPw"] = wundStationPw;
 
+    // Add timezone to location section
+    doc["location"][0]["yourUTC"] = yourUTC;
+    doc["location"][0]["daylightOffset"] = daylightOffset_sec;
+
     // Assuming PWS is also intended to be nested, creating a new structure for it.
     JsonArray pwsApiArray = doc.createNestedArray("pwsApiSetup");
     JsonObject pwsApi_0 = pwsApiArray.createNestedObject();
@@ -878,6 +887,12 @@ void loadConfig() {
         if (doc.containsKey("wundGApiSetup") && !doc["wundGApiSetup"].isNull()) {
             wundStationID = doc["wundGApiSetup"][0]["wundStationID"].as<String>();
             wundStationPw = doc["wundGApiSetup"][0]["wundStationPw"].as<String>();
+        }
+
+        // Load Timezone settings from location section
+        if (doc.containsKey("location") && !doc["location"].isNull()) {
+            yourUTC = doc["location"][0]["yourUTC"] | 2; // Default to 2 if not present
+            daylightOffset_sec = doc["location"][0]["daylightOffset"] | 0; // Default to 0
         }
 
         // Load PWSWeather API settings (assuming a new "pwsApiSetup" structure)
@@ -963,6 +978,36 @@ void handleApiKeyMessage(const String &msg)
   saveConfig(); // Save the new configuration to LittleFS without restarting
 }
 
+void handleTimezoneMessage(const String &msg)
+{
+  // Format: Z{"C_TIMEZONE":"2","C_DAYLIGHT_SAVINGS":true}
+  String jsonString = msg.substring(1); // Remove 'Z' prefix
+  DynamicJsonDocument doc(256);
+  DeserializationError error = deserializeJson(doc, jsonString);
+
+  if (error)
+  {
+    serialTerminal(3, "Failed to parse timezone JSON: " + String(error.c_str()));
+    return;
+  }
+
+  serialTerminal(0, "Received new timezone configuration.");
+  serialTerminal(0, jsonString);
+
+  if (doc.containsKey("C_TIMEZONE"))
+  {
+    yourUTC = doc["C_TIMEZONE"].as<long>();
+  }
+  if (doc.containsKey("C_DAYLIGHT_SAVINGS"))
+  {
+    daylightOffset_sec = doc["C_DAYLIGHT_SAVINGS"].as<bool>() ? 3600 : 0;
+  }
+
+  UTCOffset_sec = yourUTC * 3600;
+  configTime(UTCOffset_sec, daylightOffset_sec, ntpServer1, ntpServer2);
+  saveConfig(); // Save new timezone settings
+}
+
 void handleFormMessage(const String &msg)
 {
   // Format from client: e.g., "0F1000", "2F-80"
@@ -1030,6 +1075,8 @@ void sendAllValuesToClient()
   payload = pageJSONData("wundStationPw", wundStationPw);
   payload = pageJSONData("PWSWxStationID", PWSWxStationID);
   payload = pageJSONData("PWSWxStationPw", PWSWxStationPw);
+  payload = pageJSONData("yourUTC", String(yourUTC));
+  payload = pageJSONData("daylightOffset", String(daylightOffset_sec));
 
   notifyClients(payload);
 }
@@ -1073,6 +1120,10 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len)
       else if (message.charAt(0) == 'K')
       {
         handleApiKeyMessage(message);
+      }
+      else if (message.charAt(0) == 'Z')
+      {
+        handleTimezoneMessage(message);
       }
     }
     // Save variables after any potential change
@@ -1649,7 +1700,8 @@ void bmeSensorRead()
     else // bme.begin() failed
     {
       serialTerminal(3, "No BME280 sensor detected on bme.begin()");
-      LedBlinker(ledSwitch, 500, LEDRed, 1000, LEDOrange, 3);
+      // Use the standard "Warning" pattern for a recoverable sensor error
+      LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
       bmeSensorDetected = false;
       validBMEReading = false;
       // Attempt to re-detect if it fails.
@@ -1978,7 +2030,8 @@ void enableWiFi()
     // Start a new connection attempt on each loop iteration
     WiFi.begin(ssid, password);
 
-    LedBlinker(ledSwitch, 100, LEDGreen, 500, LEDBlue, 1);
+    // Use the standard "In Progress" pattern
+    LedBlinker(ledSwitch, 500, LEDCyan, 500, LEDBlack, 1); // Pulsing Cyan
     
     // Wait for the connection attempt to resolve, but with a shorter timeout for this single attempt.
     unsigned long attemptStartTime = millis();
@@ -2000,9 +2053,11 @@ void enableWiFi()
       {
         serialTerminal(5, "SSID: " + String(ssid) + " IP: " + IPaddress + " RSSI: " + String(rssi));
       }
-      LedBlinker(ledSwitch, 50, LEDBlue, 100, LEDBlack, 3);
+      // Use the standard "Success" pattern
+      LedBlinker(ledSwitch, 100, LEDGreen, 100, LEDBlack, 2); // Quick Green Double-Flash
   } else {
-      LedBlinker(ledSwitch, 50, LEDRed, 100, LEDBlack, 3);
+      // Use the standard "Critical Failure" pattern
+      LedBlinker(true, 100, LEDRed, 100, LEDBlack, 5); // Fast Red Flash
       // --- ADDED: Trigger Config Portal on Failure ---
       serialTerminal(3, "Failed to connect to WiFi. Entering configuration mode.");
       startConfigPortal();
@@ -2144,7 +2199,8 @@ void updateThingSpeak()
       if (!thingAPI.begin("http://api.thingspeak.com/update?api_key=" + thingSpkAPIwR + "&field1=" + String(outsideTemp) + "&field2=" + String(sensPress) + "&field3=" + String(sensorHum) + "&field4=" + String(dewPoint) + "&field5=" + String(winddir) + "&field6=" + String(windSpdAvg60Sec) + "&field7=" + String(loadVoltage) + "&field8=" + String(dailyrainMM)))
       {
         serialTerminal(2, "Failed to connect to thingAPI");
-        LedBlinker(ledSwitch, 500, LEDRed, 500, LEDOrange, 3);
+        // Use the standard "Warning" pattern
+        LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
         thingAPI.end();
       }
       else
@@ -2156,13 +2212,15 @@ void updateThingSpeak()
  
         if (httpCode == 200)
         {
-          LedBlinker(ledSwitch, 200, LEDLightSteelBlue, 500, LEDGreen, 3);
+          // Use the standard "Success" pattern
+          LedBlinker(ledSwitch, 100, LEDGreen, 100, LEDBlack, 2); // Quick Green Double-Flash
           serialTerminal(0, "thingAPI [Updated] :: httpCode1: " + String(thingStatus));
         }
         else
         {
           serialTerminal(1, "Failed to connect to thingAPI - error code: " + String(thingStatus));
-          LedBlinker(ledSwitch, 500, LEDRed, 500, LEDOrange, 3);
+          // Use the standard "Warning" pattern
+          LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
         }
       }
     }
@@ -2205,7 +2263,8 @@ void updateWindyAPI()
       if (!windyAPI.begin(payload))
       {
         serialTerminal(2, "Failed to connect to Windy API");
-        LedBlinker(ledSwitch, 500, LEDRed, 500, LEDOrange, 4);
+        // Use the standard "Warning" pattern
+        LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
         windyAPI.end();
       }
       else
@@ -2216,13 +2275,15 @@ void updateWindyAPI()
 
         if (httpCode == 200)
         {
-          LedBlinker(ledSwitch, 200, LEDYellow, 500, LEDGreen, 4);
+          // Use the standard "Success" pattern
+          LedBlinker(ledSwitch, 100, LEDGreen, 100, LEDBlack, 2); // Quick Green Double-Flash
           serialTerminal(0, "windyAPI [Updated] :: httpCode: " + String(windyStatus));
         }
         else
         {
           serialTerminal(1, "windyAPI [Failed] :: error code: " + String(windyStatus));
-          LedBlinker(ledSwitch, 500, LEDRed, 500, LEDOrange, 4);
+          // Use the standard "Warning" pattern
+          LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
         }
       }
     }
@@ -2271,7 +2332,8 @@ void updateWundAPI()
       serialTerminal(0, payload);
       if (!wundAPI.begin(payload))
       {
-        LedBlinker(ledSwitch, 500, LEDRed, 500, LEDOrange, 5);
+        // Use the standard "Warning" pattern
+        LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
         serialTerminal(2, "Failed to connect to Wunderground API");
         wundAPI.end();
       }
@@ -2283,13 +2345,15 @@ void updateWundAPI()
 
         if (httpCode == 200)
         {
-          LedBlinker(ledSwitch, 200, LEDBlue, 500, LEDGreen, 4);
+          // Use the standard "Success" pattern
+          LedBlinker(ledSwitch, 100, LEDGreen, 100, LEDBlack, 2); // Quick Green Double-Flash
           serialTerminal(0, "wundAPI [Updated] :: httpCode: " + String(wundStatus));
         }
         else
         {
           serialTerminal(1, "wundAPI [Failed] :: error code: " + String(wundStatus));
-          LedBlinker(ledSwitch, 500, LEDRed, 500, LEDOrange, 4);
+          // Use the standard "Warning" pattern
+          LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
         }
       }
     }
@@ -2413,8 +2477,9 @@ void detectBME280()
   {
     serialTerminal(3, "No BME280 sensor detected");
     bmeSensorDetected = false;
-    validBMEReading = false;
-    LedBlinker(ledSwitch, 500, LEDRed, 1000, LEDOrange, 3);
+    validBMEReading = false;    
+    // Use the standard "Warning" pattern
+    LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
   }
 }
 
@@ -2426,7 +2491,8 @@ unsigned long getTime()
   {
     timeAttempts++;
     serialTerminal(3, "Failed to obtain time - attempts: " + String(timeAttempts));
-    LedBlinker(initialBoot, 500, LEDRed, 1000, LEDBlue, 3);
+    // Use the standard "Critical Failure" pattern for repeated NTP failure
+    LedBlinker(initialBoot, 100, LEDRed, 100, LEDBlack, 5); // Fast Red Flash
 
     if (timeAttempts > 5)
     {
@@ -2467,13 +2533,15 @@ void syncTime(unsigned long syncTimer)
       epochTime = tempTime;
       setCurrentTime();
       serialTerminal(0, "Time Sync [OK] - UNIX EpochTime: " + String(epochTime) + " Variance: " + String(variance) + " Current Time: " + currTime);
-      LedBlinker(ledSwitch, 200, LEDLightSteelBlue, 200, LEDYellow, 3);
+      // Use the standard "Success" pattern
+      LedBlinker(ledSwitch, 100, LEDGreen, 100, LEDBlack, 2); // Quick Green Double-Flash
       timeSyncStatus = true;
     }
     else
     {
       serialTerminal(2, "Failed to obtain time (periodic check).");
-      LedBlinker(ledSwitch, 500, LEDRed, 500, LEDOrange, 5);
+      // Use the standard "Warning" pattern
+      LedBlinker(ledSwitch, 500, LEDOrange, 500, LEDBlack, 3); // Slow Orange Pulse
       timeSyncStatus = false;
     }
     clockSyncTimer = millis();
@@ -2516,7 +2584,8 @@ void setCurrentTime()
 void systemRestart(String message)
 {
   systemRestartStatus == true;
-  LedBlinker(initialBoot, 500, LEDRed, 1000, LEDYellow, 3);
+  // Use the standard "Critical Failure" pattern to indicate a restart
+  LedBlinker(true, 100, LEDRed, 100, LEDBlack, 5); // Fast Red Flash
   serialTerminal(0, "RESTARTING DEVICE: " + message);
   ESP.restart();
 }
