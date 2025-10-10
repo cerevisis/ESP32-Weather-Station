@@ -20,14 +20,12 @@ void ledSetup()
   FastLED.setBrightness(128);
 }
 
-
 void LedBlinker(bool ledEnable, unsigned long delayLEDTime1, int colour1, unsigned long delayLEDTime2, int colour2, int repeats)
 {
   if (ledEnable)
   {
     for (int i = 0; i < repeats; i++)
     {
-
       leds[0] = colour1;
       FastLED.show();
       delay(delayLEDTime1);
@@ -39,8 +37,6 @@ void LedBlinker(bool ledEnable, unsigned long delayLEDTime1, int colour1, unsign
       delay(delayLEDTime2);
       leds[0] = CRGB::Black;
       FastLED.show();
-
-
     }
     leds[0] = CRGB::Black;
     FastLED.show();

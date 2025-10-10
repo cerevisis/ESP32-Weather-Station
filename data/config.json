@@ -3,7 +3,7 @@
     "wifi": [
         {
             "ssid": "YOUR_SSID",
-            "password": "PASSWORD"
+            "password": "YOUR_WIFI_PW"
         }
     ],
     "location": [
