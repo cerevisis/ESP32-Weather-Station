@@ -6,10 +6,7 @@ String readFile(fs::FS &fs, const char * path) {
     return String();
   }
   Serial.println(("- read from file:"));
-  String fileContent;
-  while (file.available()) {
-    fileContent += String((char)file.read());
-  }
+  String fileContent = file.readString();
   Serial.println((fileContent));
   return fileContent;
 }

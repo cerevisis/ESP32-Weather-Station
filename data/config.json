@@ -1,38 +1,58 @@
 {
-  "wifi": [
-    {
-      "ssid": "YOUR_WIFI",
-      "password": "YOUR_WIFI_PW"
-    }
-  ],
-  "thingSpkSetup": [
-    {
-      "myChannelNumber": 123,
-      "thingSpkAPIwR": ""
-    }
-  ],
-  "windyApiSetup": [
-    {
-      "stationID": "",
-      "windyAPIKey": ""
-    }
-  ],
-  "wundGApiSetup": [
-    {
-      "wundStationID": "",
-      "wundStationPw": ""
-    }
-  ],
-  "location": [
-    {
-      "yourUTC": 2,
-      "daylightOffset": 0
-    }
-  ],
-  "pwsApiSetup": [
-    {
-      "PWSWxStationID": "",
-      "PWSWxStationPw": ""
-    }
-  ]
+    "wifi": [
+        {
+            "ssid": "YOUR_WIFI",
+            "password": "YOUR_PASSWORD"
+        }
+    ],
+    "thingSpkSetup": [
+        {
+            "myChannelNumber": 0,
+            "thingSpkAPIwR": "YOUR_TS_API_KEY"
+        }
+    ],
+    "windyApiSetup": [
+        {
+            "stationID": "0",
+            "windyAPIKey": "YOUR_WINDY_API_KEY"
+        }
+    ],
+    "wundGApiSetup": [
+        {
+            "wundStationID": "",
+            "wundStationPw": "YOUR_WUND_PW"
+        }
+    ],
+    "location": [
+        {
+            "yourUTC": 2,
+            "daylightOffset": 0,
+            "city": "Cape Town",
+            "latitude": "-33,918861",
+            "longitude": "18,423300",
+            "elevation_m": 16,
+            "stationName": "",
+            "shareOption": "public",
+            "agl_wind": 10,
+            "agl_temp": 2,
+            "stationType": "ESP32 Weather Station",
+            "operatorText": "",
+            "operatorUrl": ""
+        }
+    ],
+    "pwsApiSetup": [
+        {
+            "PWSWxStationID": "",
+            "PWSWxStationPw": ""
+        }
+    ],
+    "mqttApiSetup": [
+        {
+            "mqttBroker": "",
+            "mqttPort": 0,
+            "mqttUser": "",
+            "mqttPass": "",
+            "mqttTopic": "/weather/station"
+        }
+    ]
 }

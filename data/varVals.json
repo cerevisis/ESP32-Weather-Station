@@ -15,12 +15,12 @@
     "currentmA": "0.00",
     "timeStamp": "",
     "dataRefresh": "1000",
-    "rssilimit": "-86.00",
+    "rssilimit": "-83.00",
     "wifiinterval": "12000000",
     "windRainCutoff": "40",
     "savedRainHourMM": "0.00",
     "dailyrainMM": "0.00",
-    "version": "V5.3.L",
+    "version": "",
     "firmware": "",
     "windyStatus": "0",
     "thingStatus": "0",
@@ -39,5 +39,6 @@
     "windDirSwitch": "0",
     "windSpdSwitch": "0",
     "rainSwitch": "0",
-    "ledSwitch": "0"
+    "mqttSwitch": "0",
+    "ledSwitch": "1"
 }

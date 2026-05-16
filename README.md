@@ -1,6 +1,8 @@
 # ESP32-Weather-Station
 This project is an advanced ESP32-based weather station with a full-featured web interface and integration with multiple public weather services like Windy.com, Wunderground.com, and ThingSpeak. It reads data from environmental sensors, processes it, serves a real-time web dashboard, and uploads data to various weather APIs. Configuration is managed via the web UI and stored persistently on the device's filesystem.
 
+**Hardware Note:** The project has transitioned from the BME280 sensor to a more robust AHT20 + BMP280 combination for environmental readings; the BME280 is now considered deprecated for new builds.
+
 
 ## Full documentation and hardware build guide in progress
 - Custom PCB design
@@ -12,17 +14,20 @@ This project is an advanced ESP32-based weather station with a full-featured web
 
 *   **Platform:** Runs on most ESP32-based boards (tested on Lolin D32, DFRobot Firebeetle).
 *   **Sensor Integration:**
-    *   Bosch BME280 for temperature, relative humidity, and air pressure.
+    *   AHT20 + BMP280 (current standard) or legacy Bosch BME280, for temperature, relative humidity, and air pressure.
     *   Analogue wind vanes and anemometers (e.g., SparkFun Weather Meters).
     *   Reed-switch based rain tipping buckets.
     *   INA219 for onboard voltage and current measurement.
 *   **API Uploads:**
-    *   Natively pushes data to Windy.com, Wunderground.com, and ThingSpeak.
+    *   Natively pushes data to Windy.com, Wunderground.com, ThingSpeak, and any MQTT broker.
+    *   **Home Assistant Integration:** Built-in MQTT Auto-Discovery support registers the station as a full device with all sensors in Home Assistant automatically.
     *   The structure is easily extensible to support additional services.
 *   **Web Dashboard:**
     *   A full-featured, responsive, app-like UI built on Bootstrap, served directly from the device.
     *   Displays real-time sensor readings and daily weather records.
     *   Renders 24-hour historical data charts.
+    *   Renders historical data charts with configurable time windows (e.g., 1h, 24h). Charts feature interactive tooltips for data inspection, and the wind chart features dynamic indicators for speed and direction.
+    *   **Robust Connectivity:** Includes a WebSocket connection status indicator and a client-side watchdog timer to detect disconnections and auto-reconnect within seconds.
     *   Provides system, sensor, and API control toggles.
     *   Includes a built-in web serial terminal with selectable log levels for easy debugging.
     *   Supports both dark and light modes.
@@ -35,18 +40,19 @@ This project is an advanced ESP32-based weather station with a full-featured web
 ## System Architecture
 
 *   **Hardware:** ESP32 microcontroller.
-*   **Sensors:** BME280 (temperature, humidity, pressure), INA219 (power monitoring), and analogue/pulse-based sensors for wind speed, wind direction, and rainfall.
+*   **Sensors:** AHT20 + BMP280 combination (standard) or BME280 (deprecated) for temperature, humidity, and pressure; INA219 for power monitoring; and analogue/pulse-based sensors for wind speed, wind direction, and rainfall.
 *   **Connectivity:** Connects to a local WiFi network. If the connection fails, it automatically starts a SoftAP configuration portal for setup.
-*   **Firmware (C++/Arduino):** The ESP32 firmware manages sensor readings, maintains a 24-hour historical data buffer, handles API uploads, and runs an `AsyncWebServer` with `AsyncWebSocket` support for non-blocking communication with the web client.
+*   **Firmware (C++/Arduino):** The ESP32 firmware manages sensor readings, maintains a 24-hour historical data buffer, handles API uploads, and runs an `AsyncWebServer` with `AsyncWebSocket` support for non-blocking communication with the web client. It includes intelligent WiFi roaming to automatically connect to the strongest access point.
 *   **Web Interface (SPA):** A responsive single-page application served from the ESP32's LittleFS. It's built with HTML, Bootstrap for styling, and vanilla JavaScript. It provides real-time data visualization through custom-built SVG charts and allows for system configuration.
 *   **Data Persistence:** Configuration for WiFi and API keys (`config.json`), persistent UI state variables (`varVals.json`), and system logs (`systemLog.csv`) are stored on the ESP32's LittleFS filesystem.
  
+*   **Raw History Persistence:** The raw, 1-minute resolution historical data is saved to `rawHistory.dat`, allowing the station to retain its full history across reboots.
 ## Hardware requirements
 
 *   **ESP32 Dev Board:**
     *   Tested on Lolin D32, DFRobot Firebeetle, but most ESP32 boards are compatible.
 *   **Environmental Sensors:**
-    *   **Temp/Humidity/Pressure:** BME280 sensor breakout board.
+    *   **Temp/Humidity/Pressure:** AHT20 + BMP280 combination (recommended) or legacy BME280 sensor breakout board.
     *   **Wind:** Analogue wind vane and anemometer (e.g., SparkFun Weather Meter Kit).
     *   **Rain:** Tipping bucket rain gauge with a reed switch.
 *   **Power Monitoring:**
@@ -75,8 +81,8 @@ This project is an advanced ESP32-based weather station with a full-featured web
 ## Setup
 - On first boot, the ESP32 will attempt to connect to WiFi but since no config is stored it will switch to SoftAP mode after about 75 seconds
 - On your device WiFi, look for the SSID "WeatherStation-Setup" and connect to it
-- Open a browser and navigate to http://192.168.4.1
-- You will be presented with a WiFi config portal where you can enter your WiFi details
+- Your device should automatically prompt you to "Sign in to network," which will open the configuration page. If not, open a browser and navigate to http://192.168.4.1.
+- You will be presented with a captive portal where you can enter your WiFi details.
   - NB if you enter incorrect details, the ESP32 will attempt to connect 15 times (approximately 75 seconds)
 - Once connected, please input your Windy.com, ThingSpeak and Wunderground API details under the setup section
 
@@ -110,11 +116,32 @@ This project is an advanced ESP32-based weather station with a full-featured web
   - Access the "API Keys" tab and set up a "Write API Key"
  - Enter the channel ID and API key details under the ThingSpeak API setup section
 
-## TODO
-- PWS Weather API is currently commented out across the various files as I need to fix it
-- Fix Daily Weather Records table
-- Add wind direction indicators to the 24 Wind Speed Graph
-- re-add support for SD card storage to write logs to SD card
+### MQTT / Home Assistant
+- **Broker Configuration:** Enter your MQTT broker's IP or hostname, port (default 1883), and authentication credentials (if required) in the web dashboard.
+- **Home Assistant Auto-Discovery:** When MQTT is enabled, the station automatically publishes discovery payloads. In Home Assistant, navigate to **Settings > Devices & Services > MQTT**, and you should see your station appear as a new device with all its sensors ready to use.
+
+## LED patterns and their meanings:
+
+1) Booting / Initializing
+- Pattern: Slow Blue Pulse
+- Use Case: Shown once when the device first powers on and starts its setup sequence.
+- Success / OK
+
+2) Pattern: Quick Green Double-Flash
+- Use Case: Indicates any successful operation, such as completing setup, connecting to WiFi, syncing time, or a successful API data upload.
+- In Progress / Working
+
+3) Pattern: Pulsing Cyan
+- Use Case: Shows the device is actively working on a task, like attempting to connect to a WiFi network.
+- Warning / Recoverable Error
+
+4) Pattern: Slow Orange Pulse
+- Use Case: Signals a non-critical error where the system can recover or retry, such as a failed API call, a temporary sensor read error, or a periodic NTP sync failure.
+- Critical Failure / Action Required
+
+5) Pattern: Fast Red Flashing
+- Use Case: Alerts you to a major failure that requires attention or will lead to a system action, like failing to connect to WiFi after all retries (which triggers the config portal) or an impending system restart.
+
 
 ## Known Issues
 1) Be Careful of using the "Debug" toggle with Terminal enabled, as you will flood the websocket with messages and this can cause and ESP32 crash
